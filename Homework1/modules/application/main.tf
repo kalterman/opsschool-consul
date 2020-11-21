@@ -92,25 +92,24 @@ resource "aws_security_group" "consul-sg" {
 # ----------------------------------------------------------------------------------------------------------------------
 # CREATE SECURITY GROUP FOR APPLICATION SERVERS
 # ----------------------------------------------------------------------------------------------------------------------
-# create security group for application server
 resource "aws_security_group" "app-sg" {
   name   = "app-sg"
   vpc_id = var.vpc-id
 
-  # for HTTP
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP from the world"
   }
 
-  # for SSH
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow SSH from the world"
   }
 
   # outbound internet access
@@ -119,6 +118,7 @@ resource "aws_security_group" "app-sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow all outside traffic"
   }
 
   tags = {

@@ -30,7 +30,7 @@ resource "aws_subnet" "consul-servers-subnets" {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# CREATE PRIVATE SUBNETS
+# CREATE APPLICATION SERVERS SUBNETS
 # ----------------------------------------------------------------------------------------------------------------------
 resource "aws_subnet" "app-servers-subnets" {
     count                   = length(var.app_servers_subnets_cidr)
