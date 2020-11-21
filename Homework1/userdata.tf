@@ -14,10 +14,9 @@ echo "Configuring dnsmasq..."
 echo "server=/consul/127.0.0.1#8600" > /etc/dnsmasq.d/10-consul
 systemctl restart dnsmasq
 
-echo '{
-  DNS=127.0.0.1
-  Domains=~consul
-}' >> /etc/systemd/resolved.conf
+echo 'DNS=127.0.0.1
+Domains=~consul' >> /etc/systemd/resolved.conf
+systemctl restart systemd-resolved.service
 
 echo "Installing consul..."
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -43,7 +42,7 @@ echo '{
     "tags": [
       "nginx"
     ],
-    "port": 80
+    "port": 80,
     "check": {
       "id": "webserver_check",
       "name": "Check nginx webserver",
@@ -73,11 +72,9 @@ echo "Configuring dnsmasq..."
 echo "server=/consul/127.0.0.1#8600" > /etc/dnsmasq.d/10-consul
 systemctl restart dnsmasq
 
-echo '{
-  DNS=127.0.0.1
-  Domains=~consul
-}' >> /etc/systemd/resolved.conf
-
+echo 'DNS=127.0.0.1
+Domains=~consul' >> /etc/systemd/resolved.conf
+systemctl restart systemd-resolved.service
 
 echo "Installing consul..."
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
