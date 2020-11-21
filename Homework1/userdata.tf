@@ -24,7 +24,7 @@ echo '{
         "retry_join": ["provider=aws tag_key=Consul tag_value=Server"],
         "enable_script_checks": true,
         "server": false
-     }' > /etc/consul.d/webserver.json
+     }' > /etc/consul.d/config.json
 
 echo '{
   "service": {
@@ -42,7 +42,7 @@ echo '{
       "timeout": "1s"
     }
   }
-}' > /etc/consul.d/config.json
+}' > /etc/consul.d/webserver.json
 
 echo "Starting consul agent..."
 consul agent -config-dir=/etc/consul.d
