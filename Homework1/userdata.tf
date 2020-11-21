@@ -3,10 +3,21 @@ locals {
 #!/bin/bash
 set -e
 
+echo "Installing dependencies..."
 apt-get -y update
 apt-get -y install nginx
-apt-get -y install awscli
+apt-get -y install dnsmasq
+
 echo "<h1>I am a consul agent!</h1>" > /var/www/html/index.nginx-debian.html
+
+echo "Configuring dnsmasq..."
+echo "server=/consul/127.0.0.1#8600" > /etc/dnsmasq.d/10-consul
+systemctl restart dnsmasq
+
+echo '{
+  DNS=127.0.0.1
+  Domains=~consul
+}' >> /etc/systemd/resolved.conf
 
 echo "Installing consul..."
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -53,6 +64,20 @@ locals {
   consul = <<USERDATA
 #!/bin/bash
 set -e
+
+echo "Installing dependencies..."
+apt-get -y update
+apt-get -y install dnsmasq
+
+echo "Configuring dnsmasq..."
+echo "server=/consul/127.0.0.1#8600" > /etc/dnsmasq.d/10-consul
+systemctl restart dnsmasq
+
+echo '{
+  DNS=127.0.0.1
+  Domains=~consul
+}' >> /etc/systemd/resolved.conf
+
 
 echo "Installing consul..."
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
